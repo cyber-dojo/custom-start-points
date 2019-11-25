@@ -30,7 +30,6 @@ jobs:
             docker push cyberdojo/${NAME}:${SHA:0:7}
             docker push cyberdojo/${NAME}:latest
             docker logout
-            exit 42 # next check we get this far...            
 
   deploy-to-beta:
     docker:
@@ -54,6 +53,7 @@ jobs:
               beta-custom \
               praqma/cyber-dojo-service \
               --version 0.2.3
+            exit 42 # next check we get this far...            
 
   deploy-to-prod:
     docker:
