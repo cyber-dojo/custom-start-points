@@ -17,7 +17,7 @@ volumes:
 
 containers:
   - name: custom
-    image: cyberdojo/custom
+    image: cyberdojo/custom-start-points
     securityContext:
       runAsUser: 65534 # nobody
       fsGroup: 65534 # nobody

@@ -1,6 +1,9 @@
 
 [![CircleCI](https://circleci.com/gh/cyber-dojo/custom.svg?style=svg)](https://circleci.com/gh/cyber-dojo/custom-start-points)
 
+Specifies the start-points used to create the custom start-points image
+* [cyberdojo/custom](https://hub.docker.com/r/cyberdojo/custom)
+
 ```bash
 #!/bin/bash
 set -e
@@ -12,7 +15,7 @@ SCRIPT=cyber-dojo
 curl -O --silent --fail "${GITHUB_ORG}/${REPO}/${BRANCH}/${SCRIPT}"
 chmod 700 ./${SCRIPT}
 # The name of the image to create...
-IMAGE_NAME=cyberdojo/custom
+IMAGE_NAME=cyberdojo/custom-start-points
 # From this repo's url
 GIT_REPO_URL=https://github.com/cyber-dojo/custom-start-points.git
 

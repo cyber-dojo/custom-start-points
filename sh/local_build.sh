@@ -13,8 +13,11 @@ if [[ -n "${UNCLEAN}" ]]; then
   echo
 fi
 
+readonly SCRIPT_PATH=${ROOT_DIR}/../commander/cyber-dojo
+readonly IMAGE_NAME=cyberdojo/custom-start-points
+
 SHA="${SHA_VALUE}" \
-  ${ROOT_DIR}/../commander/cyber-dojo start-point create \
-    cyberdojo/custom \
+  ${SCRIPT_PATH} start-point create \
+    ${IMAGE_NAME} \
       --custom \
         file://${ROOT_DIR}
