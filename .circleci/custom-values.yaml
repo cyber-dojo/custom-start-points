@@ -1,0 +1,50 @@
+
+fullnameOverride: "custom"
+
+replicaCount: 3
+
+service:
+  port: 4526
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "4526"
+
+volumes:
+  - name: custom-tmp-dir
+    emptyDir:
+      medium: Memory
+      sizeLimit: "16Mi"
+
+containers:
+  - name: custom
+    image: cyberdojo/custom
+    securityContext:
+      runAsUser: 65534 # nobody
+      fsGroup: 65534 # nobody
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+    volumeMounts:
+      - name: custom-tmp-dir
+        mountPath: /tmp
+        readOnly: false
+    resources:
+      requests:
+        cpu: 25m
+        memory: 64Mi
+      limits:
+        cpu: 50m
+        memory: 128Mi
+    livenessProbe:
+      path: /alive?
+      port: 4526
+    readinessProbe:
+      path: /ready?
+      port: 4526
+
+envFromSecret: {}
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []

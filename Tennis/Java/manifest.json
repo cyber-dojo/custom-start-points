@@ -1,0 +1,16 @@
+{
+  "visible_filenames": [
+    "TennisGame1.java",
+    "TennisGame2.java",
+    "TennisGame3.java",
+    "TennisTest.java",
+    "instructions",
+    "cyber-dojo.sh"
+  ],
+
+  "filename_extension" : ".java",
+
+  "display_name": "Tennis refactoring, Java JUnit",
+
+  "image_name": "cyberdojofoundation/java_junit"
+}

@@ -1,0 +1,14 @@
+{
+  "display_name": "C++ Countdown, Round 4",
+  "visible_filenames": [
+    "countdown.cpp",
+    "cyber-dojo.sh",
+    "rules",
+    "scorer.cpp",
+    "tokens.cpp"
+  ],
+  "highlight_filenames": [ "rules" ],
+  "image_name": "cyberdojofoundation/gpp_assert",
+  "filename_extension": [ ".cpp", ".hpp", ".c", ".h" ],
+  "tab_size": 4
+}

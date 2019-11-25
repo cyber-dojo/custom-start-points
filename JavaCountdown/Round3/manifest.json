@@ -1,0 +1,14 @@
+{
+  "display_name": "Java Countdown, Round 3",
+  "visible_filenames": [
+    "CountDown.java",
+    "cyber-dojo.sh",
+    "rules",
+    "Scorer.java",
+    "Tokens.java"
+  ],
+  "highlight_filenames": [ "rules" ],
+  "image_name": "cyberdojofoundation/java_junit",
+  "filename_extension": ".java",
+  "tab_size": 4
+}
