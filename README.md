@@ -4,13 +4,16 @@
 ```bash
 #!/bin/bash
 set -e
-
-SCRIPT=cyber-dojo
+# The script to run
 GITHUB_ORG=https://raw.githubusercontent.com/cyber-dojo
-curl -O --silent --fail "${GITHUB_ORG}/commander/master/${SCRIPT}"
+REPO=commander
+BRANCH=master
+SCRIPT=cyber-dojo
+curl -O --silent --fail "${GITHUB_ORG}/${REPO}/${BRANCH}/${SCRIPT}"
 chmod 700 ./${SCRIPT}
-
+# The name of the image to create...
 IMAGE_NAME=cyberdojo/custom
+# From this repo's url
 GIT_REPO_URL=https://github.com/cyber-dojo/custom-start-points.git
 
 ./${SCRIPT} start-point create \
