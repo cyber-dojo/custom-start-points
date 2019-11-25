@@ -17,7 +17,7 @@ cd ${TMP_DIR}
 curl -O --silent --fail "${GITHUB_ORG}/${REPO_NAME}/${BRANCH_NAME}/${SCRIPT_NAME}"
 chmod 700 ./${SCRIPT_NAME}
 
-readonly IMAGE_NAME=cyberdojo/custom-start-points
+readonly IMAGE_NAME=cyberdojo/custom-start-points:latest
 
 SHA="${SHA_VALUE}" \
   ./${SCRIPT_NAME} start-point create \
