@@ -15,7 +15,7 @@ SCRIPT=cyber-dojo
 curl -O --silent --fail "${GITHUB_ORG}/${REPO}/${BRANCH}/${SCRIPT}"
 chmod 700 ./${SCRIPT}
 # The name of the image to create...
-IMAGE_NAME=cyberdojo/custom-start-points
+IMAGE_NAME=cyberdojo/custom-start-points:latest
 # From this repo's url
 GIT_REPO_URL=https://github.com/cyber-dojo/custom-start-points.git
 
