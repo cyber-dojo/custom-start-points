@@ -52,7 +52,7 @@ jobs:
               -f .circleci/custom-start-point-values.yaml \
               beta-custom-start-points \
               praqma/cyber-dojo-service \
-              --version 0.2.3
+              --version 0.2.4
 
   deploy-to-prod:
     docker:
@@ -75,7 +75,7 @@ jobs:
               -f .circleci/custom-start-point-values.yaml \
               prod-custom-start-points \
               praqma/cyber-dojo-service \
-              --version 0.2.3
+              --version 0.2.4
 
 workflows:
   version: 2
