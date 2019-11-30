@@ -10,7 +10,7 @@ if javac -Xlint:unchecked -Xlint:deprecation -cp $CLASSES *.java; then
       --disable-banner \
       --disable-ansi-colors \
       --details=tree \
-      --details-theme=unicode \
+      --details-theme=ascii \
       --class-path . \
       --scan-class-path
 fi
