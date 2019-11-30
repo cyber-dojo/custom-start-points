@@ -19,7 +19,7 @@ IMAGE_NAME=cyberdojo/custom-start-points:latest
 # From this repo's url
 GIT_REPO_URL=https://github.com/cyber-dojo/custom-start-points.git
 # Exposed on this port
-CYBER_DOJO_CUTOM_PORT=4536 \
+CYBER_DOJO_CUSTOM_PORT=4536 \
 ./${SCRIPT} start-point create \
     "${IMAGE_NAME}" \
       --custom \
