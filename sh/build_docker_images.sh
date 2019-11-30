@@ -19,7 +19,7 @@ chmod 700 ./${SCRIPT_NAME}
 
 readonly IMAGE_NAME=cyberdojo/custom-start-points:latest
 
-CYBER_DOJO_CUSTOM_PORT=4536 \
+CYBER_DOJO_CUSTOM_PORT=4526 \
 SHA="${SHA_VALUE}" \
   ./${SCRIPT_NAME} start-point create \
     ${IMAGE_NAME} \
