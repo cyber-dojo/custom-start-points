@@ -2,7 +2,6 @@
 set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-readonly SHA_VALUE=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 readonly UNCLEAN="$(cd "${ROOT_DIR}" && git status -s)"
 
 if [[ -n "${UNCLEAN}" ]]; then
@@ -14,11 +13,13 @@ if [[ -n "${UNCLEAN}" ]]; then
 fi
 
 readonly SCRIPT_PATH=${ROOT_DIR}/../commander/cyber-dojo
+
+export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
+export CYBER_DOJO_CUSTOM_PORT=4526
+
 readonly IMAGE_NAME=cyberdojo/custom-start-points
 
-CYBER_DOJO_CUSTOM_PORT=4526 \
-SHA="${SHA_VALUE}" \
-  ${SCRIPT_PATH} start-point create \
-    ${IMAGE_NAME} \
-      --custom \
-        file://${ROOT_DIR}
+${SCRIPT_PATH} start-point create \
+  ${IMAGE_NAME} \
+    --custom \
+      file://${ROOT_DIR}
