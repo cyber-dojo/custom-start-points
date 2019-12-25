@@ -1,5 +1,5 @@
 
-[![CircleCI](https://circleci.com/gh/cyber-dojo/custom.svg?style=svg)](https://circleci.com/gh/cyber-dojo/custom-start-points)
+[![CircleCI](https://circleci.com/gh/cyber-dojo/custom-start-points.svg?style=svg)](https://circleci.com/gh/cyber-dojo/custom-start-points)
 
 Specifies the start-points used to create the custom start-points image
 * [cyberdojo/custom-start-points](https://hub.docker.com/r/cyberdojo/custom-start-points)
