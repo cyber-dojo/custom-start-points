@@ -34,9 +34,10 @@ build_image_on_ci()
 curl_script()
 {
   local -r GITHUB_ORG=https://raw.githubusercontent.com/cyber-dojo
-  local -r REPO_NAME=commander
-  local -r BRANCH_NAME=master
-  curl -O --silent --fail "${GITHUB_ORG}/${REPO_NAME}/${BRANCH_NAME}/$(script_name)"
+  local -r REPO=commander
+  local -r BRANCH=master
+  local -r URL="${GITHUB_ORG}/${REPO}/${BRANCH}/$(script_name)"
+  curl -O --silent --fail "${URL}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

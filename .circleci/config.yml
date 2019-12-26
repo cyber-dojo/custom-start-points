@@ -11,9 +11,7 @@ jobs:
       - checkout
       - run:
           name: Build image, test it, tag it, publish it
-          command: |
-            set -e
-            ./build_test_tag_publish.sh
+          command: ./build_test_tag_publish.sh
 
   deploy-to-beta:
     docker:
@@ -22,9 +20,7 @@ jobs:
       - checkout
       - run:
           name: Authenticate with gcloud, deploy to prod with helm
-          command: |
-            set -e
-            ./.circleci/deploy_to_namespace.sh beta
+          command: ./.circleci/deploy_to_namespace.sh beta
 
   deploy-to-prod:
     docker:
@@ -33,9 +29,7 @@ jobs:
       - checkout
       - run:
           name: Authenticate with gcloud, deploy to prod with helm
-          command: |
-            set -e
-            ./.circleci/deploy_to_namespace.sh prod
+          command: ./.circleci/deploy_to_namespace.sh prod
 
 workflows:
   version: 2
@@ -45,17 +39,13 @@ workflows:
           context: cyberdojo-context
           filters:
             branches:
-              only:
-                  - master
+              only: [ master ]
       - deploy-to-beta:
           context: cyberdojo-context
-          requires:
-            - build-image
+          requires: [ build-image ]
       - approve-to-prod:
           type: approval
-          requires:
-            - deploy-to-beta
+          requires: [ deploy-to-beta ]
       - deploy-to-prod:
           context: cyberdojo-context
-          requires:
-            - approve-to-prod
+          requires: [ approve-to-prod ]
