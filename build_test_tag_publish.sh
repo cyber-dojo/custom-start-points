@@ -19,7 +19,7 @@ build_the_image()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_the_image_on_ci()
+build_image_on_ci()
 {
   cd ${TMP_DIR}
   curl_script
