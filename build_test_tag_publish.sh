@@ -16,10 +16,6 @@ build_the_image()
     curl_script
     chmod 700 $(script_path)
   fi
-  # export CYBER_DOJO_IMAGE_URL=https://github.com/cyber-dojo/custom-start-points
-  # export CYBER_DOJO_IMAGE_NAME=${IMAGE}
-  # export CYBER_DOJO_IMAGE_SHA=${SHA}
-  # export CYBER_DOJO_IMAGE_TAG=${TAG}
   $(script_path) start-point create "${IMAGE}" --custom "${ROOT_DIR}"
 }
 
