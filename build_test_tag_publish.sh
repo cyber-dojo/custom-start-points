@@ -16,17 +16,19 @@ build_the_image()
     curl_script
     chmod 700 $(script_path)
   fi
+  export GIT_COMMIT_SHA="${SHA}"
   $(script_path) start-point create "${IMAGE}" --custom "${ROOT_DIR}"
+  unset GIT_COMMIT_SHA
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 curl_script()
 {
-  local -r RAW_GITHUB_ORG=https://raw.githubusercontent.com/cyber-dojo
-  local -r REPO=commander
-  local -r BRANCH=master
-  local -r URL="${RAW_GITHUB_ORG}/${REPO}/${BRANCH}/$(script_name)"
-  curl -O --silent --fail "${URL}"
+  local -r raw_github_org=https://raw.githubusercontent.com/cyber-dojo
+  local -r repo=commander
+  local -r branch=master
+  local -r url="${raw_github_org}/${repo}/${branch}/$(script_name)"
+  curl -O --silent --fail "${url}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
