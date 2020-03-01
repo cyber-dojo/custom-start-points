@@ -1,13 +1,23 @@
-#!/bin/bash -Ee
+#!/bin/bash -Eeu
 
 readonly TMP_DIR=$(mktemp -d /tmp/cyber-dojo.custom-start-points.XXXXXXXXX)
 trap "rm -rf ${TMP_DIR} > /dev/null" INT EXIT
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+readonly ROOT_DIR="$(cd "$(dirname "${0}")" && pwd)"
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+main()
+{
+  export $(versioner_env_vars)
+  build_the_image
+  assert_equal "$(git_commit_sha)" "$(image_sha)"
+  tag_the_image
+  on_ci_publish_tagged_images
+}
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 versioner_env_vars()
 {
-  docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env'
+  docker run --rm cyberdojo/versioner:latest
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,7 +89,7 @@ tag_the_image()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci()
 {
-  [ -n "${CIRCLECI}" ]
+  [ -n "${CIRCLECI:-}" ]
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,8 +110,4 @@ on_ci_publish_tagged_images()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-export $(versioner_env_vars)
-build_the_image
-assert_equal "$(git_commit_sha)" "$(image_sha)"
-tag_the_image
-on_ci_publish_tagged_images
+main
