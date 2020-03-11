@@ -3,7 +3,7 @@
     "yahtzee.hpp",
     "yahtzee.cpp",
     "yahtzee.tests.cpp",
-    "instructions",
+    "readme.txt",
     "makefile",
     "cyber-dojo.sh"
   ],
