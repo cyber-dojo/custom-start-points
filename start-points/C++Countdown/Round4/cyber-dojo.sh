@@ -1,4 +1,4 @@
-g++ -std=c++17 -c countdown.cpp
+g++ -std=c++2a -c countdown.cpp
 if [ $? != 0 ]; then
   echo
   echo ">>> Score = 0"
@@ -7,5 +7,5 @@ if [ $? != 0 ]; then
   exit
 fi
 
-g++ -std=c++17 scorer.cpp -o scorer
+g++ -std=c++2a scorer.cpp -o scorer
 ./scorer countdown.cpp
