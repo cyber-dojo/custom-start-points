@@ -7,7 +7,7 @@
     "scorer.cpp",
     "tokens.cpp"
   ],
-  "highlight_filenames": [ "rules" ],
+  "highlight_filenames": [ "readme.txt" ],
   "image_name": "cyberdojofoundation/gpp_assert",
   "filename_extension": [ ".cpp", ".hpp", ".c", ".h" ],
   "tab_size": 4
