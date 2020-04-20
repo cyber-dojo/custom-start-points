@@ -150,7 +150,7 @@ public class Scorer {
         // green-traffic light pattern...put it out of sight
         for (int i = 0; i < 100; i++)
             out.println();
-        out.print("OK (1 test)");
+        out.print("[ 0 tests failed ]");
     }
 
     public void score(List<String> lines, PrintStream out) {

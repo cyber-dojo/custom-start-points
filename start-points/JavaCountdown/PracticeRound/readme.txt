@@ -1,4 +1,4 @@
-Your task is to write a Java program in the file CountDown.java 
+Your task is to write a Java program in the file CountDown.java
 that compiles and uses all of the tokens listed in Tokens.java
 The smaller your program the higher your score.
 The size of the program does not include whitespace
@@ -16,7 +16,7 @@ score = minus the size of CountDown.java
 for each token you have used in CountDown.java
   score += 3*token.size
 if (all tokens used in CountDown.java)
-  score += 50
+  score += 100
 
 
 RULES
