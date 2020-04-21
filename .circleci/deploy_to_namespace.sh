@@ -41,4 +41,4 @@ helm upgrade \
   --values .circleci/custom-start-point-values.yaml \
   ${NAMESPACE}-custom-start-points \
   praqma/cyber-dojo-service \
-  --version 0.2.4
+  --version 0.2.5
