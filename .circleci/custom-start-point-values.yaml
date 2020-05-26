@@ -1,7 +1,7 @@
 
 fullnameOverride: "custom-start-points"
 
-replicaCount: 3
+replicaCount: 1
 
 service:
   port: 4526
