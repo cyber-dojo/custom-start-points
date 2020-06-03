@@ -1,16 +1,12 @@
 {
+  "image_name": "cyberdojofoundation/ruby_test_unit:7447a68",
+  "display_name": "Tennis refactoring, Ruby Test::Unit",
   "visible_filenames": [
     "tennis_test.rb",
     "tennis.rb",
     "readme.txt",
     "cyber-dojo.sh"
   ],
-
   "filename_extension" : ".rb",
-
-  "tab_size": 2,
-
-  "display_name": "Tennis refactoring, Ruby Test::Unit",
-
-  "image_name": "cyberdojofoundation/ruby_test_unit"
+  "tab_size": 2
 }
