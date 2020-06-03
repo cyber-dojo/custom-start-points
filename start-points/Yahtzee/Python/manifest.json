@@ -1,14 +1,11 @@
 {
+  "image_name": "cyberdojofoundation/python_unittest:b8333d3",
+  "display_name": "Yahtzee refactoring, Python unitttest",
   "visible_filenames": [
     "test_yahtzee.py",
     "yahtzee.py",
     "readme.txt",
     "cyber-dojo.sh"
   ],
-
-  "filename_extension" : ".py",
-
-  "display_name": "Yahtzee refactoring, Python unitttest",
-
-  "image_name": "cyberdojofoundation/python_unittest"
+  "filename_extension" : ".py"
 }
