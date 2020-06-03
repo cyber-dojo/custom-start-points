@@ -1,14 +1,11 @@
 {
+  "image_name": "cyberdojofoundation/csharp_nunit:3a84849",
+  "display_name": "Yahtzee refactoring, C# NUnit",
   "visible_filenames": [
     "YahtzeeTest.cs",
     "Yahtzee.cs",
     "readme.txt",
     "cyber-dojo.sh"
   ],
-
-  "filename_extension" : ".cs",
-
-  "display_name": "Yahtzee refactoring, C# NUnit",
-
-  "image_name": "cyberdojofoundation/csharp_nunit"
+  "filename_extension" : ".cs"
 }
