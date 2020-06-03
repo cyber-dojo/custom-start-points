@@ -1,4 +1,5 @@
 {
+  "image_name": "cyberdojofoundation/java_junit:a4a7561",
   "display_name": "Java Countdown, Round 3",
   "visible_filenames": [
     "CountDown.java",
@@ -8,7 +9,6 @@
     "Tokens.java"
   ],
   "highlight_filenames": [ "readme.txt" ],
-  "image_name": "cyberdojofoundation/java_junit",
   "filename_extension": ".java",
   "tab_size": 4
 }
