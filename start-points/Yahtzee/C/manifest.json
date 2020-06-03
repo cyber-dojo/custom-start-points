@@ -1,4 +1,6 @@
 {
+  "image_name": "cyberdojofoundation/gcc_assert:0e5e4d5",
+  "display_name": "Yahtzee refactoring, C (gcc) assert",
   "visible_filenames": [
     "cyber-dojo.sh",
     "readme.txt",
@@ -7,7 +9,5 @@
     "yahtzee.h",
     "yahtzee.tests.c"
   ],
-  "display_name": "Yahtzee refactoring, C (gcc) assert",
-  "image_name": "cyberdojofoundation/gcc_assert",
   "filename_extension": [ ".c", ".h" ]
 }
