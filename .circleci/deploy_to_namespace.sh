@@ -33,6 +33,7 @@ helm_upgrade \
    "${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}" \
    "${CYBER_DOJO_CUSTOM_START_POINTS_TAG}" \
    "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" \
-   ".circleci/custom-start-point-values.yml" \
+   ".circleci/k8s-general-values.yml" \
+   ".circleci/k8s-specific-values.yml" \
    "custom-start-points" \
    "praqma/cyber-dojo-service --version 0.2.5"

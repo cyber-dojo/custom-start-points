@@ -7,9 +7,10 @@ helm_upgrade()
   local -r image="${2}"
   local -r tag="${3}"
   local -r port="${4}"
-  local -r values="${5}"
-  local -r repo="${6}"
-  local -r helm_repo="${7}"
+  local -r general_values="${5}"
+  local -r specific_values="${6}"
+  local -r repo="${7}"
+  local -r helm_repo="${8}"
 
   helm upgrade \
     --install \
@@ -20,7 +21,8 @@ helm_upgrade()
     --set containers[0].livenessProbe.port=${port} \
     --set containers[0].readinessProbe.port=${port} \
     --set-string service.annotations."prometheus\.io/port"=${port} \
-    --values ${values} \
+    --values ${general_values} \
+    --values ${specific_values} \
     ${namespace}-${repo} \
     ${helm_repo}
 }
