@@ -1,5 +1,7 @@
 #!/bin/bash -Eeu
 
+source ./.circleci/helm_upgrade.sh
+
 # misc env-vars are in ci context
 
 echo ${GCP_K8S_CREDENTIALS} > /gcp/gcp-credentials.json
