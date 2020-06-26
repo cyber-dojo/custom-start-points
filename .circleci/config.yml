@@ -41,4 +41,4 @@ workflows:
           requires: [ build-image ]
       - deploy-to-prod:
           context: cyberdojo-context
-          requires: [ approve-to-prod ]
+          requires: [ deploy-to-beta ]
