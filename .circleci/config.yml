@@ -39,6 +39,9 @@ workflows:
       - deploy-to-beta:
           context: cyberdojo-context
           requires: [ build-image ]
+      - approve-to-prod:
+          type: approval
+          requires: [ deploy-to-beta ]
       - deploy-to-prod:
           context: cyberdojo-context
-          requires: [ deploy-to-beta ]
+          requires: [ approve-to-prod ]

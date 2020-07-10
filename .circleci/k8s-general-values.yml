@@ -1,7 +1,7 @@
 
 fullnameOverride: "custom-start-points"
 
-daemonSet: true
+replicaCount: 1
 
 service:
   annotations:
@@ -12,10 +12,10 @@ volumes:
     emptyDir:
       medium: Memory
       sizeLimit: "16Mi"
-  - name: docker-socket
-    hostPath:
-      path: /var/run/docker.sock
-      type: File
+
+podSecurityContext:
+  runAsUser: 65534 # nobody
+  fsGroup: 65534 # nobody
 
 containers:
   - name: custom-start-points
@@ -26,8 +26,6 @@ containers:
       - name: custom-start-points-tmp-dir
         mountPath: /tmp
         readOnly: false
-      - mountPath: /var/run/docker.sock
-        name: docker-socket
     resources:
       requests:
         cpu: 20m
