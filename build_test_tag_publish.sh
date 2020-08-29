@@ -1,8 +1,8 @@
 #!/bin/bash -Eeu
 
+readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly TMP_DIR=$(mktemp -d /tmp/cyber-dojo.custom-start-points.XXXXXXXXX)
 trap "rm -rf ${TMP_DIR} > /dev/null" INT EXIT
-readonly ROOT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 main()
