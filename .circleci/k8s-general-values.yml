@@ -23,7 +23,7 @@ containers:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: true
     env:
-      CYBER_DOJO_PROMETHEUS: "true"            
+      CYBER_DOJO_PROMETHEUS: "true"
     volumeMounts:
       - name: custom-start-points-tmp-dir
         mountPath: /tmp
