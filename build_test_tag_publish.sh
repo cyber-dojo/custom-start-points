@@ -102,11 +102,8 @@ on_ci_publish_tagged_images()
   echo 'on CI so publishing tagged images'
   local -r sha="$(image_sha)"
   local -r tag="${sha:0:7}"
-  # DOCKER_USER, DOCKER_PASS are in ci context
-  echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
   docker push "$(image_name):latest"
   docker push "$(image_name):${tag}"
-  docker logout
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
