@@ -10,7 +10,7 @@ jobs:
           command: |
             # DOCKER_USER, DOCKER_PASS are in the context
             echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
-            ./build_test_tag_publish.sh
+            ./build_test_publish.sh
             docker logout
 
   deploy-to-beta:
