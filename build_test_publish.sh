@@ -30,7 +30,7 @@ build_the_image()
 {
   # GIT_COMMIT_SHA is needed to embed the SHA inside the created image as an env-var
   export GIT_COMMIT_SHA="$(image_sha)"
-  $(cyber_dojo) start-point create "$(image_name):$(image_sha)" --custom "${ROOT_DIR}"
+  $(cyber_dojo) start-point create "$(image_name):$(image_tag)" --custom "${ROOT_DIR}"
   unset GIT_COMMIT_SHA
 }
 
@@ -72,7 +72,7 @@ cyber_dojo()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 tag_the_image_to_latest()
 {
-  docker tag "$(image_name):$(image_sha)" "$(image_name):latest"
+  docker tag "$(image_name):$(image_tag)" "$(image_name):latest"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
