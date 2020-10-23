@@ -7,13 +7,69 @@ trap "rm -rf ${TMP_DIR} > /dev/null" INT EXIT
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_publish()
 {
+  exit_non_zero_unless_installed docker
+  exit_non_zero_unless_installed git
   export $(versioner_env_vars)
   echo; remove_old_images
+  echo; set_git_repo_dir
   echo; build_tagged_image
   assert_sha_env_var_inside_image_matches_image_tag
   echo; show_env_vars
   tag_the_image_to_latest
   echo; on_ci_publish_tagged_images
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+exit_non_zero_unless_installed()
+{
+  local -r name="${1}"
+  if ! installed "${name}"; then
+    stderr "ERROR: ${name} is not installed"
+    exit 42
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+installed()
+{
+  local -r name="${1}"
+  if hash "${name}" 2> /dev/null; then
+    true
+  else
+    false
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+stderr()
+{
+  >&2 echo "${1}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+set_git_repo_dir()
+{
+  local -r abs_root_dir="$(cd "${ROOT_DIR}" && pwd)"
+  echo "Checking ${abs_root_dir}"
+  echo 'Looking for uncommitted changes'
+  if [[ -z $(cd ${abs_root_dir} && git status -s) ]]; then
+    echo 'Found none'
+    echo "Using ${abs_root_dir}"
+    GIT_REPO_DIR="${abs_root_dir}"
+  else
+    echo 'Found some'
+    local -r url="${TMP_DIR}/$(basename ${abs_root_dir})"
+    echo "So copying it to ${url}"
+    cp -r "${abs_root_dir}" "${TMP_DIR}"
+    echo "Committing the changes in ${url}"
+    cd ${url}
+    git config user.email 'cyber-dojo-machine-user@cyber-dojo.org'
+    git config user.name 'CyberDojoMachineUser'
+    git add .
+    git commit -m 'Save'
+    echo "Using ${url}"
+    GIT_REPO_DIR="${url}"
+  fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -59,7 +115,7 @@ build_tagged_image()
 {
   # GIT_COMMIT_SHA is needed to embed the SHA inside the created image as an env-var
   export GIT_COMMIT_SHA="$(image_sha)"
-  $(cyber_dojo) start-point create "$(image_name):$(image_tag)" --custom "${ROOT_DIR}"
+  $(cyber_dojo) start-point create "$(image_name):$(image_tag)" --custom "${GIT_REPO_DIR}"
   unset GIT_COMMIT_SHA
 }
 
@@ -91,7 +147,7 @@ cyber_dojo()
   else
     local -r url="https://raw.githubusercontent.com/cyber-dojo/commander/master/${name}"
     >&2 echo "Did not find executable ${name} on the PATH"
-    >&2 echo "Curling it from ${url}"
+    >&2 echo "Curling it to /tmp from ${url}"
     curl --fail --output "${TMP_DIR}/${name}" --silent "${url}"
     chmod 700 "${TMP_DIR}/${name}"
     echo "${TMP_DIR}/${name}"
@@ -124,12 +180,12 @@ on_ci()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_publish_tagged_images()
 {
-  # Docker login/logout is done in the .circleci/config.yml file
   if ! on_ci; then
     echo 'not on CI so not publishing tagged images'
     return
   fi
   echo 'on CI so publishing tagged images'
+  # Docker login/logout is done in the .circleci/config.yml file
   docker push "$(image_name):$(image_tag)"
   docker push "$(image_name):latest"
 }
