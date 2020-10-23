@@ -5,7 +5,7 @@ readonly TMP_DIR=$(mktemp -d /tmp/cyber-dojo.custom-start-points.XXXXXXXXX)
 trap "rm -rf ${TMP_DIR} > /dev/null" INT EXIT
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-main()
+build_test_publish()
 {
   export $(versioner_env_vars)
   echo; remove_old_images
@@ -19,7 +19,10 @@ main()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 versioner_env_vars()
 {
+  # This function echoes env-vars which are exported and so become
+  # available to the rest of the script. Start with the default env-vars...
   docker run --rm cyberdojo/versioner:latest
+  # ... and then override the env-vars for custom-start-points
   local -r sha="$(cd "${ROOT_DIR}" && git rev-parse HEAD)"
   local -r tag="${sha:0:7}"
   echo "CYBER_DOJO_CUSTOM_START_POINTS_SHA=${sha}"
@@ -29,12 +32,14 @@ versioner_env_vars()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 remove_old_images()
 {
-  local -r dil=$(docker image ls --format "{{.Repository}}:{{.Tag}}")
-  remove_all_but_latest "${dil}" "${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}"
+  # When doing local development, tagging images from the git commit sha
+  # will cause a lot of old images to build up unless they are deleted.
+  local -r image_names=$(docker image ls --format "{{.Repository}}:{{.Tag}}")
+  remove_all_but_latest_images "${image_names}" "${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - -
-remove_all_but_latest()
+remove_all_but_latest_images()
 {
   local -r docker_image_ls="${1}"
   local -r name="${2}"
@@ -96,7 +101,7 @@ cyber_dojo()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 tag_the_image_to_latest()
 {
-  # Creating a versioner release relies on using :latest holding the SHA
+  # Creating a versioner release relies on :latest holding the SHA
   # env-var which identifies the 7-character image tag.
   docker tag "$(image_name):$(image_tag)" "$(image_name):latest"
 }
@@ -104,6 +109,8 @@ tag_the_image_to_latest()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 show_env_vars()
 {
+  # If you doing local development, your versioner_env_vars() function
+  # (in dependent repos), will need to add these overrides.
   echo "CYBER_DOJO_CUSTOM_START_POINTS_SHA=$(image_sha)"
   echo "CYBER_DOJO_CUSTOM_START_POINTS_TAG=$(image_tag)"
 }
@@ -117,6 +124,7 @@ on_ci()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_publish_tagged_images()
 {
+  # Docker login/logout is done in the .circleci/config.yml file
   if ! on_ci; then
     echo 'not on CI so not publishing tagged images'
     return
@@ -127,4 +135,4 @@ on_ci_publish_tagged_images()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-main
+build_test_publish
