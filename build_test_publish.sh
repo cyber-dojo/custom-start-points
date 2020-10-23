@@ -8,37 +8,37 @@ trap "rm -rf ${TMP_DIR} > /dev/null" INT EXIT
 main()
 {
   export $(versioner_env_vars)
-  build_the_image
-  assert_equal "$(git_commit_sha)" "$(image_sha)"
-  tag_the_image
-  on_ci_publish_tagged_images
+  echo; build_the_image
+  assert_sha_env_var_inside_image_matches_image_tag
+  echo; show_env_vars
+  tag_the_image_to_latest
+  echo; on_ci_publish_tagged_images
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 versioner_env_vars()
 {
   docker run --rm cyberdojo/versioner:latest
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-git_commit_sha()
-{
-  echo "$(cd "${ROOT_DIR}" && git rev-parse HEAD)"
+  local -r sha="$(cd "${ROOT_DIR}" && git rev-parse HEAD)"
+  local -r tag="${sha:0:7}"
+  echo "CYBER_DOJO_CUSTOM_START_POINTS_SHA=${sha}"
+  echo "CYBER_DOJO_CUSTOM_START_POINTS_TAG=${tag}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_the_image()
 {
-  export GIT_COMMIT_SHA="$(git_commit_sha)"
-  $(cyber_dojo) start-point create "$(image_name)" --custom "${ROOT_DIR}"
+  # GIT_COMMIT_SHA is needed to embed the SHA inside the created image as an env-var
+  export GIT_COMMIT_SHA="$(image_sha)"
+  $(cyber_dojo) start-point create "$(image_name):$(image_sha)" --custom "${ROOT_DIR}"
   unset GIT_COMMIT_SHA
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-assert_equal()
+assert_sha_env_var_inside_image_matches_image_tag()
 {
-  local -r expected="${1}"
-  local -r actual="${2}"
+  local -r expected="$(image_sha)"
+  local -r actual="$(docker run --entrypoint='' --rm "$(image_name):$(image_tag)" sh -c 'echo ${SHA}')"
   if [ "${expected}" != "${actual}" ]; then
     echo ERROR
     echo "expected:'${expected}'"
@@ -48,16 +48,9 @@ assert_equal()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-image_name()
-{
-  echo "${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-image_sha()
-{
-  docker run --entrypoint='' --rm "$(image_name)" sh -c 'echo ${SHA}'
-}
+image_name() { echo "${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}"; }
+image_sha()  { echo "${CYBER_DOJO_CUSTOM_START_POINTS_SHA}"  ; }
+image_tag()  { echo "${CYBER_DOJO_CUSTOM_START_POINTS_TAG}"  ; }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 cyber_dojo()
@@ -77,13 +70,16 @@ cyber_dojo()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-tag_the_image()
+tag_the_image_to_latest()
 {
-  local -r sha="$(image_sha)"
-  local -r tag="${sha:0:7}"
-  docker tag "$(image_name):latest" "$(image_name):${tag}"
-  echo "${sha}"
-  echo "${tag}"
+  docker tag "$(image_name):$(image_sha)" "$(image_name):latest"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+show_env_vars()
+{
+  echo "CYBER_DOJO_CUSTOM_START_POINTS_SHA=$(image_sha)"
+  echo "CYBER_DOJO_CUSTOM_START_POINTS_TAG=$(image_tag)"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,10 +96,8 @@ on_ci_publish_tagged_images()
     return
   fi
   echo 'on CI so publishing tagged images'
-  local -r sha="$(image_sha)"
-  local -r tag="${sha:0:7}"
+  docker push "$(image_name):$(image_tag)"
   docker push "$(image_name):latest"
-  docker push "$(image_name):${tag}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
