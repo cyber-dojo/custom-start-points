@@ -8,7 +8,8 @@ trap "rm -rf ${TMP_DIR} > /dev/null" INT EXIT
 main()
 {
   export $(versioner_env_vars)
-  echo; build_the_image
+  echo; remove_old_images
+  echo; build_tagged_image
   assert_sha_env_var_inside_image_matches_image_tag
   echo; show_env_vars
   tag_the_image_to_latest
@@ -26,7 +27,30 @@ versioner_env_vars()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_the_image()
+remove_old_images()
+{
+  local -r dil=$(docker image ls --format "{{.Repository}}:{{.Tag}}")
+  remove_all_but_latest "${dil}" "${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - -
+remove_all_but_latest()
+{
+  local -r docker_image_ls="${1}"
+  local -r name="${2}"
+  for image_name in `echo "${docker_image_ls}" | grep "${name}:"`
+  do
+    if [ "${image_name}" != "${name}:latest" ]; then
+      if [ "${image_name}" != "${name}:<none>" ]; then
+        docker image rm "${image_name}"
+      fi
+    fi
+  done
+  docker system prune --force
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+build_tagged_image()
 {
   # GIT_COMMIT_SHA is needed to embed the SHA inside the created image as an env-var
   export GIT_COMMIT_SHA="$(image_sha)"
@@ -72,6 +96,8 @@ cyber_dojo()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 tag_the_image_to_latest()
 {
+  # Creating a versioner release relies on using :latest holding the SHA
+  # env-var which identifies the 7-character image tag.
   docker tag "$(image_name):$(image_tag)" "$(image_name):latest"
 }
 
