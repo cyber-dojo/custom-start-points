@@ -1,9 +1,9 @@
 
-# Contributing to custom-start-points
+# How to contribute a new custom problem
 
 :+1::tada: Thanks :tada::+1:
 
-The simplest way to contribute a new custom-start-point is as follows:
+The simplest way is as follows:
 - Create your new start-point in [https://cyber-dojo-org](https://cyber-dojo-org)
 - Clone this repo.
 - Add the files from your cyber-dojo session to the repo, following the existing format.
