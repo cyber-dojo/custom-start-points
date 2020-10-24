@@ -3,7 +3,7 @@
 
 - A docker-containerized micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 
-- The source for the [https://cyber-dojo.org/creator/choose_custom_problem?type=group](https://cyber-dojo.org/creator/choose_custom_problem?type=group) page.
+- The data source for the [https://cyber-dojo.org/creator/choose_custom_problem?type=group](https://cyber-dojo.org/creator/choose_custom_problem?type=group) page.
 
 <img width="75%" src="https://user-images.githubusercontent.com/252118/97069640-7a560680-15c9-11eb-8bd6-8309c87df764.png">
 
