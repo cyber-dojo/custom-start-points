@@ -1,9 +1,7 @@
 
 # How to contribute a new custom problem
 
-:+1::tada: Thanks :tada::+1:
-
-The simplest way is as follows:
+The simplest way is to:
 - Create your new start-point in [https://cyber-dojo-org](https://cyber-dojo-org)
 - Clone this repo.
 - Add the files from your cyber-dojo session to the repo, following the existing format.
@@ -12,4 +10,4 @@ The simplest way is as follows:
   `cyber-dojo.sh` file, press `[test]`, read it from the output.
 - Run `./build_test_publish.sh`
 - Issue a pull request.
-- Thank you.
+- :+1::tada: Thank you. :+1::tada:
