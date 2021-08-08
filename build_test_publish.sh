@@ -19,7 +19,6 @@ build_test_publish()
   assert_sha_env_var_inside_image_matches_image_tag
   echo; show_env_vars
   tag_the_image_to_latest
-  echo; on_ci_publish_tagged_images
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
