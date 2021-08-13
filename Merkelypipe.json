@@ -1,7 +1,7 @@
 {
     "owner": "cyber-dojo",
     "name": "custom-start-points",
-    "description": "Pipeline Controls for Merkely",
+    "description": "Microservice for Custom exercises choices",
     "visibility": "public",
     "template": [
         "artifact"
