@@ -1,7 +1,7 @@
 {
     "owner": "cyber-dojo",
     "name": "custom-start-points",
-    "description": "Microservice for Custom exercises choices",
+    "description": "Custom exercises choices",
     "visibility": "public",
     "template": [
         "artifact"
