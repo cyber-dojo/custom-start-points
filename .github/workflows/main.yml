@@ -41,7 +41,7 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
   
   deploy-staging:
-    needs: [pre-build, build-test-push, build-push-ecr]
+    needs: [pre-build, build-test-push]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
     with:
       tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/custom-start-points:${{ needs.pre-build.outputs.tag }}
