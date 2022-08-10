@@ -31,7 +31,7 @@ jobs:
     with:
       CIRCLE_BUILD_NUM: ${{github.run_number}}
       CIRCLE_BUILD_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
-      BUILD_SCRIPT_NAME: build_test_publish.sh
+      BUILD_COMMAND: build_test_publish.sh
       tag: ${{ needs.pre-build.outputs.tag }}
       AWS_ACCOUNT_ID: 244531986313
       AWS_REGION: eu-central-1
