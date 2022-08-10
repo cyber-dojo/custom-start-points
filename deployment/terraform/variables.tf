@@ -1,5 +1,5 @@
 variable "service_name" {
-  type = string
+  type    = string
   default = "custom-start-points"
 }
 
@@ -8,22 +8,22 @@ variable "env" {
 }
 
 variable "app_port" {
-  type = number
+  type    = number
   default = 4526
 }
 
 variable "cpu_limit" {
-  type = number
+  type    = number
   default = 256
 }
 
 variable "mem_limit" {
-  type = number
+  type    = number
   default = 512
 }
 
 variable "mem_reservation" {
-  type = number
+  type    = number
   default = 32
 }
 
