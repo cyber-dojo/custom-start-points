@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - gh-actions
 
 jobs:
   pre-build:
@@ -21,9 +22,9 @@ jobs:
         echo "TAG=${TAG}" >> ${GITHUB_ENV}
         echo ::set-output name=tag::${TAG}
 
-  build-test-push-dockerhub:
+  build-test-push:
     needs: [pre-build]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build_test_push_dockerhub.yml@master
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build_test_push.yml@master
     secrets:
       MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
@@ -32,21 +33,15 @@ jobs:
       CIRCLE_BUILD_NUM: ${{github.run_number}}
       CIRCLE_BUILD_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
       BUILD_SCRIPT_NAME: build_test_publish.sh
-
-  build-push-ecr:
-    needs: [pre-build, build-test-push-dockerhub]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build_push_ecr.yml@master
-    with:
       tag: ${{ needs.pre-build.outputs.tag }}
-      docker_context: source/server
       AWS_ACCOUNT_ID: 244531986313
       AWS_REGION: eu-central-1
-      registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
+      ecr_registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
       service_name: custom-start-points
       gh_actions_iam_role_name: gh_actions_services
   
   deploy-staging:
-    needs: [pre-build, build-test-push-dockerhub, build-push-ecr]
+    needs: [pre-build, build-test-push]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
     with:
       tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/custom-start-points:${{ needs.pre-build.outputs.tag }}
@@ -57,7 +52,7 @@ jobs:
       environment_name: staging
 
   deploy-prod:
-    needs: [pre-build, build-test-push-dockerhub, build-push-ecr, deploy-staging]
+    needs: [pre-build, build-test-push, deploy-staging]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
     with:
       tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/custom-start-points:${{ needs.pre-build.outputs.tag }}
