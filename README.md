@@ -1,5 +1,4 @@
-
-[![CircleCI](https://circleci.com/gh/cyber-dojo/custom-start-points.svg?style=svg)](https://circleci.com/gh/cyber-dojo/custom-start-points)
+![Github Action (main)](https://github.com/cyber-dojo/custom-start-points/actions/workflows/main.yml/badge.svg)
 
 - A docker-containerized micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - The data source for the `choose a custom problem` page.
