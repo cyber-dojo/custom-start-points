@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly SH_DIR="${ROOT_DIR}/sh"
@@ -11,14 +12,16 @@ source "${SH_DIR}/kosli.sh"
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_publish()
 {
-  exit_non_zero_unless_installed docker
-  exit_non_zero_unless_installed git
   echo; remove_old_images
   echo; set_git_repo_dir
   echo; build_tagged_image
   assert_sha_env_var_inside_image_matches_image_tag
   echo; show_env_vars
   tag_the_image_to_latest
+  if on_ci; then
+    docker push "$(image_name):latest"
+    docker push "$(image_name):$(git_commit_tag)"
+  fi
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -162,16 +165,9 @@ on_ci()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-if on_ci; then
-  kosli_declare_pipeline https://staging.app.kosli.com
-  kosli_declare_pipeline https://app.kosli.com
-fi
-
+exit_non_zero_unless_installed docker
+exit_non_zero_unless_installed git
+on_ci_kosli_declare_pipeline
 build_test_publish
-
-if on_ci; then
-  docker push "$(image_name):latest"
-  docker push "$(image_name):$(git_commit_tag)"
-  kosli_log_artifact https://staging.app.kosli.com
-  kosli_log_artifact https://app.kosli.com
-fi
+on_ci_kosli_report_artifact_creation
+on_ci_kosli_assert_artifact
