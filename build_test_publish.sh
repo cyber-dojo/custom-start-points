@@ -5,9 +5,9 @@ readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly SH_DIR="${ROOT_DIR}/sh"
 readonly TMP_DIR=$(mktemp -d /tmp/cyber-dojo.custom-start-points.XXXXXXXXX)
 trap "rm -rf ${TMP_DIR} > /dev/null" INT EXIT
+source "${SH_DIR}/kosli.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
 export $(echo_versioner_env_vars)
-source "${SH_DIR}/kosli.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_test_publish()
