@@ -2,21 +2,21 @@
 set -Eeu
 
 export KOSLI_OWNER=cyber-dojo
-export KOSLI_PIPELINE=custom-start-points
+export KOSLI_FLOW=custom-start-points
 
 readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
 readonly KOSLI_HOST_PRODUCTION=https://app.kosli.com
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_declare_pipeline()
+kosli_create_flow()
 {
   local -r hostname="${1}"
 
-  kosli pipeline declare \
+  kosli create flow "${KOSLI_FLOW}" \
     --description "Custom exercises choices" \
-    --visibility public \
+    --host "${hostname}" \
     --template artifact \
-    --host "${hostname}"
+    --visibility public
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -26,8 +26,7 @@ kosli_report_artifact_creation()
 
   cd "$(root_dir)"  # So we don't need --repo-root flag
 
-  kosli pipeline artifact report creation \
-    "$(artifact_name)" \
+  kosli report creation artifact "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
 }
@@ -37,8 +36,7 @@ kosli_assert_artifact()
 {
   local -r hostname="${1}"
 
-  kosli assert artifact \
-    "$(artifact_name)" \
+  kosli assert artifact "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
 }
@@ -62,7 +60,8 @@ kosli_expect_deployment()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-artifact_name() {
+artifact_name()
+{
   source "$(root_dir)/sh/echo_versioner_env_vars.sh"
   export $(echo_versioner_env_vars)
   echo "${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}"
@@ -83,11 +82,11 @@ on_ci()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_declare_pipeline()
+on_ci_kosli_create_flow()
 {
   if on_ci ; then
-    kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
-    kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
+    kosli_create_flow "${KOSLI_HOST_STAGING}"
+    kosli_create_flow "${KOSLI_HOST_PRODUCTION}"
   fi
 }
 
