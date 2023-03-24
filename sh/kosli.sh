@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-export KOSLI_OWNER=cyber-dojo
+export KOSLI_ORG=cyber-dojo
 export KOSLI_FLOW=custom-start-points
 
 readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
@@ -20,15 +20,17 @@ kosli_create_flow()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_report_artifact_creation()
+kosli_report_artifact()
 {
   local -r hostname="${1}"
 
-  cd "$(root_dir)"  # So we don't need --repo-root flag
+  pushd "$(root_dir)" > /dev/null # So we don't need --repo-root flag
 
-  kosli report creation artifact "$(artifact_name)" \
+  kosli report artifact "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
+
+  popd > /dev/null
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -94,8 +96,8 @@ on_ci_kosli_create_flow()
 on_ci_kosli_report_artifact_creation()
 {
   if on_ci ; then
-    kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
-    kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
+    kosli_report_artifact "${KOSLI_HOST_STAGING}"
+    kosli_report_artifact "${KOSLI_HOST_PRODUCTION}"
   fi
 }
 
