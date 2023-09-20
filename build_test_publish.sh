@@ -170,5 +170,5 @@ exit_non_zero_unless_installed git
 on_ci_kosli_create_flow
 build_test_publish
 on_ci_kosli_report_artifact_creation
-# on_ci_kosli_report_snyk_scan_evidence
+on_ci_kosli_report_snyk_scan_evidence
 on_ci_kosli_assert_artifact
