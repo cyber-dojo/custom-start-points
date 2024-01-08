@@ -68,7 +68,7 @@ kosli_expect_deployment()
 {
   local -r environment="${1}"
   local -r hostname="${2}"
-  local -r api_token="${2}"
+  local -r api_token="${3}"
 
   # In .github/workflows/main.yml deployment is its own job
   # and the image must be present to get its sha256 fingerprint.
