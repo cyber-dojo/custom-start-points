@@ -20,9 +20,6 @@ jobs:
       run: |
         echo "KOSLI_TRAIL=:${KOSLI_TRAIL}:"
         echo "KOSLI_TRAIL=:${{ env.KOSLI_TRAIL }}:"        
-        TAG=$(echo $GITHUB_SHA | head -c7)
-        echo "image_tag=${TAG}" >> ${GITHUB_OUTPUT}
-        echo "KOSLI_TRAIL=${GITHUB_SHA}" >> ${GITHUB_ENV}
 
 
   job-1:
