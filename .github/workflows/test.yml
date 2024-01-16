@@ -27,7 +27,7 @@ jobs:
       - name: Look at implicit env-vars
         run: |
           echo "KOSLI_TRAIL=:${KOSLI_TRAIL}:"
-          echo "KOSLI_TRAIL=:${{ env.KOSLI_TRAIL }}:          
+          echo "KOSLI_TRAIL=:${{ env.KOSLI_TRAIL }}:"
 
   job-2:
     runs-on: ubuntu-latest
@@ -38,4 +38,4 @@ jobs:
           KOSLI_TRAIL: ${{ env.KOSLI_TRAIL }}
         run: |
           echo "KOSLI_TRAIL=:${KOSLI_TRAIL}:"
-          echo "KOSLI_TRAIL=:${{ env.KOSLI_TRAIL }}:          
+          echo "KOSLI_TRAIL=:${{ env.KOSLI_TRAIL }}:"
