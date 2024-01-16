@@ -1,0 +1,39 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  pre-build:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.prep.outputs.image_tag }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Prepare
+      id: prep
+      run: |
+        TAG=$(echo $GITHUB_SHA | head -c7)
+        echo "image_tag=${TAG}" >> ${GITHUB_OUTPUT}
+        echo "KOSLI_TRAIL=${GITHUB_SHA}" >> ${GITHUB_ENV}
+
+
+  job-1:
+    needs: [pre-build]
+    steps:
+      - name: Look at implicit env-vars
+        run: |
+          echo "KOSLI_TRAIL=:${KOSLI_TRAIL}:"
+          echo "KOSLI_TRAIL=:${{ env.KOSLI_TRAIL }}:          
+
+  job-2:
+    needs: [pre-build]
+    steps:
+      - name: Look at explicit env-vars
+        env:
+          KOSLI_TRAIL: ${{ env.KOSLI_TRAIL }}
+        run: |
+          echo "KOSLI_TRAIL=:${KOSLI_TRAIL}:"
+          echo "KOSLI_TRAIL=:${{ env.KOSLI_TRAIL }}:          
