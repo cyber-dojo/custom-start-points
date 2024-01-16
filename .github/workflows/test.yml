@@ -46,4 +46,4 @@ jobs:
 
       - name: Begin Kosli Trail
         run:
-          echo "KOSLI_TRAIL=:{KOSLI_TRAIL}:"
+          echo "KOSLI_TRAIL=:${KOSLI_TRAIL}:"
