@@ -3,7 +3,7 @@ set -Eeu
 
 export KOSLI_ORG=cyber-dojo
 export KOSLI_FLOW=custom-start-points-ci
-export KOSLI_TRAIL="${GITHUB_SHA}"
+export KOSLI_TRAIL="$(git rev-parse HEAD)"
 
 # KOSLI_ORG is set in CI
 # KOSLI_API_TOKEN is set in CI
