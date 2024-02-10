@@ -55,7 +55,7 @@ kosli_attest_snyk()
     --host="${hostname}" \
     --api-token="${api_token}" \
     --name=custom-start-points.snyk-scan \
-    --scan-results="$(root_dir)/snyk.json"
+    --scan-results="$(repo_root)/snyk.json"
 }
 
 # - - - - - - - - - - - - - - - - - - -
