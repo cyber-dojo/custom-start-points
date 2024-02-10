@@ -1,0 +1,8 @@
+version: 1
+
+trail:
+  artifacts:
+    - name: custom-start-points
+      attestations:
+        - name: snyk-scan
+          type: snyk
