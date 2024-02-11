@@ -2,7 +2,7 @@
 
 - A [docker-containerized](https://registry.hub.docker.com/r/cyberdojo/custom-start-points) micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - The data source for the `choose a custom problem` page.
-- A [Kosli](https://www.kosli.com/) showcase for a [CI flow](https://app.kosli.com/cyber-dojo/flows/custom-start-points-ci/trails/) 
+- A [Kosli CI flow](https://app.kosli.com/cyber-dojo/flows/custom-start-points-ci/trails/) 
   deploying, with Continuous Compliance, to [staging](https://app.kosli.com/cyber-dojo/environments/aws-beta/snapshots/) and [production](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/) AWS environments.
 - How to [contribute a new custom problem](docs/contributing.md).
 
