@@ -54,6 +54,7 @@ kosli_attest_snyk()
     --artifact-type=docker \
     --host="${hostname}" \
     --api-token="${api_token}" \
+    --attachments="$(repo_root)/.snyk" \
     --name=custom-start-points.snyk-scan \
     --scan-results="$(repo_root)/snyk.json"
 }
