@@ -1,5 +1,5 @@
 
-# How to contribute a new custom problem
+# How to contribute a new custom exercise
 
 The simplest way is to:
 - Create your new start-point in a cyber-dojo session at [https://cyber-dojo-org](https://cyber-dojo-org)
