@@ -209,7 +209,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: staging
-      url: ${{ vars.KOSLI_HOST_STAGING }}
+      url: https://beta.cyber-dojo.org
     env:
       IMAGE_NAME:        ${{ needs.kosli-trail.outputs.image_name }}
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
@@ -245,7 +245,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: ${{ vars.KOSLI_HOST }}
+      url: https://cyber-dojo.org
     env:
       IMAGE_NAME:        ${{ needs.kosli-trail.outputs.image_name }}
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
