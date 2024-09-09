@@ -23,6 +23,8 @@ jobs:
       image_name:  ${{ steps.variables.outputs.image_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Set outputs
         id: variables
@@ -41,6 +43,8 @@ jobs:
       pull-requests: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Setup Kosli CLI
         uses: kosli-dev/setup-cli-action@v2
@@ -63,6 +67,8 @@ jobs:
       kosli_fingerprint: ${{ steps.variables.outputs.kosli_fingerprint }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Build image
         run:
@@ -101,6 +107,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Setup Kosli CLI
         uses: kosli-dev/setup-cli-action@v2
@@ -138,6 +146,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - name: Setup Kosli CLI
         uses: kosli-dev/setup-cli-action@v2
@@ -272,6 +282,8 @@ jobs:
       IMAGE_NAME: ${{ needs.kosli-trail.outputs.image_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
       - uses: docker/login-action@v3
         with:
