@@ -119,6 +119,9 @@ jobs:
     env:
       IMAGE_NAME: ${{ needs.setup.outputs.image_name }}
       IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}
+    permissions:
+      id-token: write
+      contents: write
     outputs:
       digest: ${{ steps.variables.outputs.digest }}
     steps:
