@@ -60,9 +60,9 @@ jobs:
       tf_apply: 'true'
       tf_version: v1.9.1
       tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.variables.outputs.ecr_registry }}/${{ needs.variables.outputs.service_name }}:${{ needs.variables.outputs.image_tag }}"}'
-      tf_sh_version: 0.2.1
-      tf_upload_artifact_name_suffix: "_prod"
-      tf_upload_artifact_state_file: 'true'
-      tf_upload_artifact_plan: 'true'
-      tf_state_file_dir_on_s3: "terraform/${{ needs.variables.outputs.service_name }}"
-      tf_state_file_name: "${{ needs.variables.outputs.service_name }}.tfstate"
+#      tf_sh_version: 0.2.1
+#      tf_upload_artifact_name_suffix: "_prod"
+#      tf_upload_artifact_state_file: 'true'
+#      tf_upload_artifact_plan: 'true'
+#      tf_state_file_dir_on_s3: "terraform/${{ needs.variables.outputs.service_name }}"
+#      tf_state_file_name: "${{ needs.variables.outputs.service_name }}.tfstate"
