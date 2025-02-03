@@ -4,7 +4,7 @@
 - The data source for the `choose a custom problem` page.
 - Demonstrates a [Kosli](https://www.kosli.com/) instrumented [GitHub CI workflow](https://app.kosli.com/cyber-dojo/flows/custom-start-points-ci/trails/) 
   deploying, with Continuous Compliance, to [staging](https://app.kosli.com/cyber-dojo/environments/aws-beta/snapshots/) and [production](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/) AWS environments.
-- Uses patterns from https://www.kosli.com/blog/using-kosli-attest-in-github-action-workflows-some-tips/
+- Uses compliance reporting patterns from https://www.kosli.com/blog/using-kosli-attest-in-github-action-workflows-some-tips/
 - How to [contribute a new custom problem](CONTRIBUTING.md).
 
 <img width="75%" src="https://user-images.githubusercontent.com/252118/97069640-7a560680-15c9-11eb-8bd6-8309c87df764.png">
