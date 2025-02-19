@@ -19,5 +19,5 @@ image_name()
 
 image_sha()
 {
-  docker run --entrypoint='' --rm "$(image_name):$(git_commit_tag)" sh -c 'echo ${SHA}'
+  docker run --entrypoint='' --rm "$(image_name):$(git_commit_tag)" sh -c 'echo ${SHA}' 2> /dev/null
 }
