@@ -175,7 +175,7 @@ jobs:
       - name: Make artifact digest available to following jobs
         id: variables
         run: |
-          DIGEST=$(kosli fingerprint "${IMAGE_NAME}" --artifact-type=docker)
+          DIGEST=$(kosli fingerprint "${IMAGE_NAME}" --artifact-type=docker --debug=false)
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
       - name: Attest image evidence to Kosli
