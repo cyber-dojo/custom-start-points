@@ -9,13 +9,13 @@ image:
 
 snyk-container: image
 	snyk container test ${IMAGE_NAME} \
+        --policy-path=.snyk \
 		--sarif \
-		--sarif-file-output=snyk.container.scan.json \
-        --policy-path=.snyk
+		--sarif-file-output=snyk.container.scan.json
 
 snyk-code:
 	snyk code test \
+        --policy-path=.snyk \
 		--sarif \
-		--sarif-file-output=snyk.code.scan.json \
-        --policy-path=.snyk
+		--sarif-file-output=snyk.code.scan.json
 
