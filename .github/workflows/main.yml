@@ -59,7 +59,7 @@ jobs:
 
   pull-request:
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: []
+    needs: [setup]
     runs-on: ubuntu-latest
     permissions:
       id-token:      write
@@ -83,7 +83,7 @@ jobs:
 
 
   snyk-code-scan:
-    needs: []
+    needs: [setup]
     runs-on: ubuntu-latest
     env:
       SARIF_FILENAME: snyk.code.scan.json
