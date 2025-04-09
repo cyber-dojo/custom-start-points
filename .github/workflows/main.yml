@@ -192,8 +192,8 @@ jobs:
           CACHE_PATH=${{ env.DIGEST }}.tar
           echo "CACHE_PATH=${CACHE_PATH}" >> ${GITHUB_ENV}
           echo "cache_path=${CACHE_PATH}" >> ${GITHUB_OUTPUT}
-          echo "CACHE_KEY=${IMAGE_NAME}:${IMAGE_TAG}" >> ${GITHUB_ENV} 
-          echo "cache_key=${IMAGE_NAME}:${IMAGE_TAG}" >> ${GITHUB_OUTPUT} 
+          echo "CACHE_KEY=${IMAGE_NAME}" >> ${GITHUB_ENV} 
+          echo "cache_key=${IMAGE_NAME}" >> ${GITHUB_OUTPUT} 
 
       - name: Save image
         run:
