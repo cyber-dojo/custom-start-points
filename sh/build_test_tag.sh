@@ -15,9 +15,9 @@ build_test_tag()
   echo; remove_old_images
   echo; set_git_repo_dir
   echo; build_tagged_image
-  assert_sha_env_var_inside_image_matches_image_tag
   echo; show_env_vars
   tag_the_image_to_latest
+  assert_base_sha_env_var_inside_image_matches_basefile_env
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -106,10 +106,10 @@ build_tagged_image()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-assert_sha_env_var_inside_image_matches_image_tag()
+assert_base_sha_env_var_inside_image_matches_basefile_env()
 {
-  local -r expected="$(image_sha)"
-  local -r actual="$(git_commit_sha)"
+  local -r expected="$(image_base_sha)"
+  local -r actual="${CYBER_DOJO_START_POINTS_BASE_SHA}"
   if [ "${expected}" != "${actual}" ]; then
     echo ERROR
     echo "expected:'${expected}'"
@@ -138,12 +138,7 @@ cyber_dojo()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 tag_the_image_to_latest()
 {
-  # Creating a versioner release relies on :latest holding the SHA
-  # env-var which identifies the 7-character image tag.
   docker tag "$(image_name):$(git_commit_tag)" "$(image_name):latest"
-  # tag for makefile snyk-container test
-  local -r head=$(git rev-parse HEAD | head -c7)
-  docker tag "$(image_name):$(git_commit_tag)" "cyberdojo/custom-start-points:${head}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
