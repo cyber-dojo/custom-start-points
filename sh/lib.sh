@@ -20,5 +20,5 @@ image_name()
 image_base_sha()
 {
   docker run --entrypoint='' --rm "$(image_name):$(git_commit_tag)" \
-    sh -c 'echo ${START_POINTS_BASE_SHA}' 2> /dev/null
+    sh -c 'echo ${CYBER_DOJO_START_POINTS_BASE_SHA}' 2> /dev/null
 }
