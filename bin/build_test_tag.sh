@@ -46,7 +46,7 @@ installed()
 # - - - - - - - - - - - - - - - - - - - - - - -
 stderr()
 {
-  >&2 echo "ERROR: ${1}"
+  >&2 echo "ERROR: ${1:-}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,9 +113,9 @@ assert_base_sha_env_var_inside_image_matches_basefile_env()
   local -r expected="$(image_base_sha)"
   local -r actual="${CYBER_DOJO_START_POINTS_BASE_SHA}"
   if [ "${expected}" != "${actual}" ]; then
-    echo ERROR
-    echo "expected:'${expected}'"
-    echo "  actual:'${actual}'"
+    stderr
+    stderr "expected:'${expected}'"
+    stderr "  actual:'${actual}'"
     exit 42
   fi
 }
