@@ -200,10 +200,11 @@ jobs:
       - name: Run Snyk container scan
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run:
-          snyk container test ${IMAGE_NAME}
-            --policy-path=.snyk
-            --sarif
+        run: |
+          docker image ls
+          snyk container test ${IMAGE_NAME} \
+            --policy-path=.snyk \
+            --sarif \
             --sarif-file-output="${SARIF_FILENAME}"
 
       - name: Setup Kosli CLI
