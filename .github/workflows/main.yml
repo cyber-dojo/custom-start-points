@@ -52,7 +52,6 @@ jobs:
             echo "image_tag=${IMAGE_TAG}"                       
           } >> ${GITHUB_OUTPUT}
 
-      # https://github.com/cyber-dojo/kosli-begin-trail
       - name: Begin Kosli Trail
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: cyber-dojo/kosli-begin-trail@main
@@ -148,85 +147,30 @@ jobs:
             --fingerprint="${{ steps.docker-push.outputs.digest }}"
             --name=custom-start-points
 
-      - name: Set image cache outputs
-        id: set-cache
-        run: |
-          CACHE_PATH=${{ env.DIGEST }}.tar
-          echo "CACHE_PATH=${CACHE_PATH}" >> ${GITHUB_ENV}
-          echo "cache_path=${CACHE_PATH}" >> ${GITHUB_OUTPUT}
-          echo "CACHE_KEY=${IMAGE_NAME}" >> ${GITHUB_ENV} 
-          echo "cache_key=${IMAGE_NAME}" >> ${GITHUB_OUTPUT} 
 
-      - name: Save image
-        run:
-          docker image save ${{ env.CACHE_KEY }}
-            --output ${{ env.CACHE_PATH }}
-
-      - name: Cache image
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.CACHE_PATH }}
-          key:  ${{ env.CACHE_KEY }}
-
-
+  # https://github.com/cyber-dojo/snyk-container-test/blob/main/action.yml
   snyk-container-scan:
-    needs: [build-image]
+    needs: [setup, build-image]
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME:        ${{ needs.build-image.outputs.tagged_image_name }}
-      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
-      CACHE_KEY:         ${{ needs.build-image.outputs.cache_key }}
-      CACHE_PATH:        ${{ needs.build-image.outputs.cache_path }}
-      SARIF_FILENAME:    snyk.container.scan.json
+    permissions:
+      id-token: write
+      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Run snyk-container-test and attest results to Kosli
+        uses: cyber-dojo/snyk-container-test@main
         with:
-          fetch-depth: 1
-
-      - name: Retrieve Docker image from cache
-        uses: actions/cache@v4
-        with:
-          key:  ${{ env.CACHE_KEY }}
-          path: ${{ env.CACHE_PATH }}
-
-      - name: Load Docker image
-        run:
-          docker image load
-            --input "${{ env.CACHE_PATH }}"
-
-      - name: Setup Snyk
-        uses: snyk/actions/setup@master
-
-      - name: Run Snyk container scan
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          docker image ls
-          snyk container test ${IMAGE_NAME} \
-            --policy-path=.snyk \
-            --sarif \
-            --sarif-file-output="${SARIF_FILENAME}"
-
-      - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        uses: kosli-dev/setup-cli-action@v2
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Attest evidence to Kosli
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run:
-          kosli attest snyk
-            --attachments=.snyk
-            --name=custom-start-points.snyk-container-scan 
-            --scan-results="${SARIF_FILENAME}"
+          snyk_token:        ${{ secrets.SNYK_TOKEN }}
+          image_name:        ${{ needs.setup.outputs.image_name }}
+          kosli_cli_version: ${{ vars.KOSLI_CLI_VERSION }}
+          attestation_name:  custom-start-points.snyk-container-scan
 
   
   sdlc-control-gate:
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
-      - build-image
       - pull-request
+      - build-image
+      - snyk-container-scan
     runs-on: ubuntu-latest
     env:
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
