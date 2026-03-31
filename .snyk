@@ -8,3 +8,21 @@ ignore:
         reason: Waiting for fix
         expires: 2026-04-15T10:53:10.182Z
         created: 2026-03-15T10:53:10.201Z
+
+  SNYK-ALPINE322-EXPAT-15704591:
+    - '*':
+        reason: Waiting for fix
+        expires: 2026-04-15T10:53:10.182Z
+        created: 2026-03-15T10:53:10.201Z
+
+  SNYK-ALPINE322-EXPAT-15704589:
+    - '*':
+        reason: Waiting for fix
+        expires: 2026-04-15T10:53:10.182Z
+        created: 2026-03-15T10:53:10.201Z
+
+  SNYK-ALPINE322-EXPAT-15704588:
+    - '*':
+        reason: Waiting for fix
+        expires: 2026-04-15T10:53:10.182Z
+        created: 2026-03-15T10:53:10.201Z
