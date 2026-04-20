@@ -166,7 +166,6 @@ jobs:
     needs:
       - pull-request
       - build-image
-      - snyk-container-scan-old
       - snyk-container-scan
     runs-on: ubuntu-latest
     env:
