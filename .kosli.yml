@@ -10,4 +10,4 @@ trail:
         - name: snyk-container-scan
           type: snyk
         - name: new-snyk-container-scan
-          type: snyk
+          type: generic
