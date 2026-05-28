@@ -31,9 +31,8 @@ jobs:
       image_name:               ${{ steps.vars.outputs.image_name }}
       image_tag:                ${{ steps.vars.outputs.image_tag }}
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
 
       - name: Set outputs
         id: vars
@@ -52,10 +51,8 @@ jobs:
           } >> ${GITHUB_OUTPUT}
 
       - name: Begin Kosli Trail
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: cyber-dojo/kosli-begin-trail@main
         with:
-          cli_version: "${{ vars.KOSLI_CLI_VERSION }}"
           flow_description: "Custom exercises choices"
 
 
@@ -68,14 +65,9 @@ jobs:
       contents:      read
       pull-requests: read
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v3
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
 
       - name: Attest pull-request evidence to Kosli
         run:
@@ -96,12 +88,10 @@ jobs:
     outputs:
       tagged_image_name: ${{ needs.setup.outputs.image_name }}
       digest:            ${{ steps.docker-push.outputs.digest }}
-      cache_path:        ${{ steps.set-cache.outputs.cache_path }}
-      cache_key:         ${{ steps.set-cache.outputs.cache_key }}
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/pinned-checkout@main
+      - uses: cyber-dojo/setup-kosli-cli@main
 
       - name: Build image
         run: |
@@ -133,12 +123,6 @@ jobs:
           echo "DIGEST=${DIGEST}" >> ${GITHUB_ENV}
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
-      - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: kosli-dev/setup-cli-action@v3
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
       - name: Attest image evidence to Kosli
         if: ${{ github.ref == 'refs/heads/main' }}
         run:
@@ -148,12 +132,13 @@ jobs:
 
   
   snyk-container-scan:
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: [build-image]
     uses: cyber-dojo/snyk-scanning/.github/workflows/artifact_snyk_test.yml@main
     with:
       artifact_name: ${{ needs.build-image.outputs.tagged_image_name }}
-      kosli_flow: ${{vars.KOSLI_FLOW}}
-      kosli_trail: ${{github.sha}}
+      kosli_flow: ${{ vars.KOSLI_FLOW }}
+      kosli_trail: ${{ github.sha }}
       kosli_attestation_name: custom-start-points.snyk-container-scan
     secrets:
       snyk_token: ${{ secrets.SNYK_TOKEN }}
@@ -167,19 +152,17 @@ jobs:
       - build-image
       - snyk-container-scan
     runs-on: ubuntu-latest
-    env:
-      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     steps:
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v3
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
+      - uses: cyber-dojo/harden-runner@main
+      - uses: cyber-dojo/setup-kosli-cli@main
 
       - name: Display current compliance
         run:
           kosli get trail "${KOSLI_TRAIL}"
 
       - name: Kosli SDLC gate to short-circuit the workflow
+        env:
+          KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
         run:
           kosli assert artifact
             --environment=${KOSLI_AWS_BETA}
